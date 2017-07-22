@@ -1,0 +1,1 @@
+web: gunicorn yanhedjango.wsgi --log-file -
