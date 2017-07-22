@@ -1,1 +1,1 @@
-web: gunicorn yanhedjango.wsgi --log-file -
+web: gunicorn efsblog.wsgi --log-file -
