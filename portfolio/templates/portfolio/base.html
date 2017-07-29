@@ -59,6 +59,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
 
             <!-- Branding Image -->
@@ -72,6 +73,7 @@
                 <li><a href="{% url 'portfolio:customer_list' %}">Customers</a></li>
                 <li><a href="{% url 'portfolio:investment_list' %}">Investments</a></li>
                 <li><a href="{% url 'portfolio:stock_list' %}">Stocks</a></li>
+                <li><a href="{% url 'portfolio:fund_list' %}">Mutual funds</a> </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
@@ -114,6 +116,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="thumbnail">
                                 <img src="{% static "images/nonstock.jpg" %}" alt="non-stock"/>
@@ -126,6 +129,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="thumbnail">
                                 <img src="{% static "images/stocks.jpg" %}" alt="stocks"/>
@@ -137,6 +141,21 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="{% static "images/funds.jpg" %}" alt="funds"/>
+                                <div class="caption">
+                                    <h2>Fund Portfolio</h2>
+                                    <p>Our Fund portfolios vary across industries.</p>
+                                    <p><a class="btn btn-default" href="{% url 'portfolio:fund_list' %}" role="button">View
+                                        details &raquo;</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             {% endblock %}

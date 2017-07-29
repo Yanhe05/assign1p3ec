@@ -2,6 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from yahoo_finance import Share
+
+
+
 class Customer(models.Model):
    name = models.CharField(max_length=50)
    address = models.CharField(max_length=200)
@@ -56,6 +60,8 @@ class Stock(models.Model):
    shares = models.DecimalField (max_digits=10, decimal_places=1)
    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
    purchase_date = models.DateField(default=timezone.now, blank=True, null=True)
+   current_stock_price = models.DecimalField(max_digits=10, decimal_places=2)
+   current_stock_value = models.DecimalField(max_digits=10, decimal_places=2)
 
    def created(self):
        self.recent_date = timezone.now()
@@ -66,3 +72,40 @@ class Stock(models.Model):
 
    def initial_stock_value(self):
        return self.shares * self.purchase_price
+
+   def current_stock_price(self):
+       symbol_f = self.symbol
+       data = Share(symbol_f)
+       share_value = (data.get_open())
+       return share_value
+
+
+   def current_stock_value(self):
+       symbol_f = self.symbol
+       data = Share(symbol_f)
+       share_value = (data.get_open())
+       if share_value is not None:
+          return float(share_value) * float(self.shares)
+
+class Fund(models.Model):
+   customer = models.ForeignKey(Customer, related_name='funds')
+   symbol = models.CharField(max_length=50)
+   company = models.CharField(max_length=200)
+   price = models.DecimalField(max_digits=10, decimal_places=2)
+   acquired_date = models.DateField(default=timezone.now)
+   ytd_return = models.DecimalField(max_digits=10, decimal_places=2)
+   recent_date = models.DateField(default=timezone.now, blank=True, null=True)
+
+   def created(self):
+       self.acquired_date = timezone.now()
+       self.save()
+
+   def updated(self):
+       self.recent_date = timezone.now()
+       self.save()
+
+   def __str__(self):
+       return str(self.customer)
+
+   def results_by_fund(self):
+       return self.recent_value - self.acquired_value
