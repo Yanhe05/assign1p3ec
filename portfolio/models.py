@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 
 from yahoo_finance import Share
 
-
-
 class Customer(models.Model):
    name = models.CharField(max_length=50)
    address = models.CharField(max_length=200)
@@ -27,7 +25,7 @@ class Customer(models.Model):
        self.updated_date = timezone.now()
        self.save()
 
-   def __str__(self):
+   def _str_(self):
        return str(self.cust_number)
 
 class Investment(models.Model):
@@ -85,7 +83,7 @@ class Stock(models.Model):
        data = Share(symbol_f)
        share_value = (data.get_open())
        if share_value is not None:
-          return float(share_value) * float(self.shares)
+        return float(share_value) * float(self.shares)
 
 class Fund(models.Model):
    customer = models.ForeignKey(Customer, related_name='funds')
@@ -109,3 +107,4 @@ class Fund(models.Model):
 
    def results_by_fund(self):
        return self.recent_value - self.acquired_value
+
